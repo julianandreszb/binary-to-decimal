@@ -28,7 +28,7 @@ describe("BinaryInput", () => {
     const wrapper = mount(BinaryInput);
     expect(
       wrapper.find('[data-testid="input-binary"]').attributes("placeholder")
-    ).toBe("Enter the binary number to convert");
+    ).toBe("Enter a binary number");
   });
 
   it("should contain the maxlength property based on maxlength property provided", function () {
@@ -68,7 +68,7 @@ describe("BinaryInput", () => {
     const binaryNumber = "A1010"; // Error: Contains an A
     await inputBinary.setValue(binaryNumber);
     expect(wrapper.find('[data-testid="error-message"]').text()).toBe(
-      "Invalid binary number entered"
+      "Invalid binary number"
     );
   });
 
@@ -82,12 +82,12 @@ describe("BinaryInput", () => {
     expect(iconError.isVisible()).toBe(true);
   });
 
-  it("should contain the invalid-value class if any invalid character is entered", async function () {
+  it("should contain the invalid-input class if any invalid character is entered", async function () {
     const wrapper = mount(BinaryInput);
     const inputBinary = wrapper.find('[data-testid="input-binary"]');
     const binaryNumber = "A1010"; // Error: Contains an A
     await inputBinary.setValue(binaryNumber);
 
-    expect(inputBinary.classes().includes("invalid-value")).toBe(true);
+    expect(inputBinary.classes().includes("invalid-input")).toBe(true);
   });
 });

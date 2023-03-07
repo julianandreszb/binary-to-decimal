@@ -1,14 +1,14 @@
-<script>
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import BinaryInput from "@/components/BinaryInput.vue";
+import { BinaryResult } from "@/Utils/Interfaces";
 
-export default defineComponent({
-  components: { BinaryInput },
-});
+function printDecimal(result: BinaryResult): void {
+  console.log(result);
+}
 </script>
 
 <template>
-  <BinaryInput></BinaryInput>
+  <BinaryInput @on-binary-entered="printDecimal"></BinaryInput>
 </template>
 
-<style scoped></style>
+<style></style>
