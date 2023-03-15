@@ -5,12 +5,12 @@ import BinaryInput from "../BinaryInput.vue";
 describe("BinaryInput", () => {
   it("should display a label based on the binaryLabel property", function () {
     const wrapper = mount(BinaryInput, { props: { binaryLabel: "Title" } });
-    expect(wrapper.find('[data-testid="label-binary"]').text()).toBe("Title");
+    expect(wrapper.find('[data-testid="label-input"]').text()).toBe("Title");
   });
 
   it("should display a default label if binaryLabel property is not provided", function () {
     const wrapper = mount(BinaryInput);
-    expect(wrapper.find('[data-testid="label-binary"]').text()).toBe(
+    expect(wrapper.find('[data-testid="label-input"]').text()).toBe(
       "Binary Number"
     );
   });
