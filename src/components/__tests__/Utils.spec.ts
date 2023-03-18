@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { isBinary, binaryToDecimal, decimalToBinary } from "../../Utils/Utils";
+import {
+  isBinary,
+  binaryToDecimal,
+  decimalToBinary,
+  generateRandomDecimal,
+} from "../../Utils/Utils";
 
 describe("Utils", () => {
   it("should validate if a string is a valid binary number", function () {
@@ -25,5 +30,10 @@ describe("Utils", () => {
     expect(decimalToBinary(1035229)).toBe("11111100101111011101");
   });
 
-  //TODO: generateRandomDecimal
+  it("should generate a random number", function () {
+    expect(generateRandomDecimal(1)).toBeLessThanOrEqual(1);
+    expect(generateRandomDecimal(10)).toBeLessThanOrEqual(10);
+    expect(generateRandomDecimal(1000)).toBeLessThanOrEqual(1000);
+    expect(generateRandomDecimal()).toBeLessThanOrEqual(100000000);
+  });
 });
