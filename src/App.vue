@@ -5,7 +5,7 @@ import DecimalInput from "@/components/DecimalInput.vue";
 import { ref } from "vue";
 const decimalNumber = ref<number>(0);
 
-function printDecimal(result: BinaryResult): void {
+function updateDecimalNumber(result: BinaryResult): void {
   decimalNumber.value = result.decimalNumber;
 }
 </script>
@@ -13,7 +13,10 @@ function printDecimal(result: BinaryResult): void {
 <template>
   <main>
     <h1>Binary To Decimal</h1>
-    <BinaryInput @on-binary-entered="printDecimal"></BinaryInput>
+    <BinaryInput
+      :maxlength="40"
+      @on-binary-entered="updateDecimalNumber"
+    ></BinaryInput>
     <DecimalInput :decimal-number="decimalNumber"></DecimalInput>
   </main>
 </template>

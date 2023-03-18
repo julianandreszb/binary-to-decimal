@@ -19,31 +19,48 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   binaryLabel: "Binary Number",
   placeholder: "Enter a binary number",
-  maxlength: 20,
+  maxlength: 40,
 });
-const binaryNumber: Ref<string> = ref("");
+const binaryNumber: Ref<string> = ref("0");
+const decimalNumber: Ref<number> = ref(0);
 const isBinaryValid = computed<boolean>((): boolean => {
-  return !binaryNumber.value.length ? true : isBinary(binaryNumber.value);
+  return isBinary(binaryNumber.value);
 });
-const errorMessage = computed<string>(() => {
+const invalidBinaryNumberMessage = computed<string>(() => {
   return isBinaryValid.value ? "" : "Invalid binary number";
 });
 const inputBinaryClass = computed<string>(() => {
   return isBinaryValid.value ? "" : "invalid-input";
 });
 const maxCharacterCounter = computed<string>(() => {
-  return `${binaryNumber.value.length}/${props.maxlength}`;
+  return `${binaryNumber.value.toString().length}/${props.maxlength}`;
 });
 
-const emitBinaryNumber = function (binaryNumber: string): void {
-  const isBinaryNumber = isBinaryValid.value;
-  let decimalNumber = isBinaryNumber ? binaryToDecimal(binaryNumber) : 0;
+const createBinaryResult = function (binaryNumber: string): BinaryResult {
+  const binaryResult: BinaryResult = {
+    isValid: false,
+    message: "",
+    decimalNumber: 0,
+  };
 
-  emit("onBinaryEntered", {
-    decimalNumber,
-    isValid: isBinaryNumber,
-    message: errorMessage.value,
-  });
+  if (isBinaryValid.value) {
+    decimalNumber.value = binaryToDecimal(binaryNumber);
+    binaryResult.isValid = true;
+    binaryResult.decimalNumber = decimalNumber.value;
+  } else {
+    binaryResult.message = invalidBinaryNumberMessage.value;
+  }
+
+  return binaryResult;
+};
+
+const emitBinaryResult = function (binaryResult: BinaryResult): void {
+  emit("onBinaryEntered", binaryResult);
+};
+
+const handleBinaryNumber = function (binaryNumber: string) {
+  const binaryResult = createBinaryResult(binaryNumber);
+  emitBinaryResult(binaryResult);
 };
 </script>
 
@@ -65,12 +82,12 @@ const emitBinaryNumber = function (binaryNumber: string): void {
         v-model="binaryNumber"
         :placeholder="props.placeholder"
         :maxlength="props.maxlength"
-        v-on:keyup="emitBinaryNumber(binaryNumber)"
+        v-on:keyup="handleBinaryNumber(binaryNumber)"
       />
     </template>
     <template v-slot:form-input-helper>
       <span class="binary-error-message" data-testid="error-message">
-        {{ errorMessage }}
+        {{ invalidBinaryNumberMessage }}
       </span>
       <span class="binary-character-counter" data-testid="character-counter">
         {{ maxCharacterCounter }}

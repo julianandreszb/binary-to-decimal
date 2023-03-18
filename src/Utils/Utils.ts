@@ -1,16 +1,19 @@
-export function isBinary(text: string): boolean {
-  return /^[01]+$/.test(text);
+export function isBinary(str: string): boolean {
+  // Regular expression that matches a binary number
+  const binaryRegex = /^[01]+$/;
+
+  // Check if the string matches the regular expression
+  return binaryRegex.test(str);
 }
 
 export function binaryToDecimal(binaryNumber: string): number {
   return parseInt(binaryNumber, 2);
-  // OR
-  // const binaryLength = binaryNumber.length;
-  // let decimal = 0;
-  // for (let i = binaryLength; i >= 0; i--) {
-  //   if (binaryNumber[i] == "1") {
-  //     decimal += Math.pow(2, binaryLength - i - 1);
-  //   }
-  // }
-  //return decimal;
+}
+
+export function decimalToBinary(decimalNumber: number): string {
+  return decimalNumber.toString(2);
+}
+
+export function generateRandomDecimal(max: number = 100000000): number {
+  return Math.floor(Math.random() * max) + 1;
 }

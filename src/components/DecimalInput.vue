@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FormGroup from "@/components/FormGroup.vue";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 interface Props {
   decimalNumber: number;
@@ -10,9 +10,9 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   decimalLabel: "Decimal Number",
+  placeholder: "",
 });
 
-//const decimalNumber = ref<number>(props.decimalNumber);
 const decimalNumber = computed<number>(() => props.decimalNumber);
 </script>
 

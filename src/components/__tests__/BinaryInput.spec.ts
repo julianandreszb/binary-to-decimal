@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
+// @ts-ignore
 import BinaryInput from "../BinaryInput.vue";
 
 describe("BinaryInput", () => {
@@ -38,17 +39,17 @@ describe("BinaryInput", () => {
     ).toBe("50");
   });
 
-  it("should contain a maxlength property equals to 20 if maxlength property is not provided", function () {
+  it("should contain a maxlength property equals to 40 if maxlength property is not provided", function () {
     const wrapper = mount(BinaryInput);
     expect(
       wrapper.find('[data-testid="input-binary"]').attributes("maxlength")
-    ).toBe("20");
+    ).toBe("40");
   });
 
   it("should display a character number counter based on maxlength property", function () {
     const wrapper = mount(BinaryInput, { props: { maxlength: 50 } });
     expect(wrapper.find('[data-testid="character-counter"]').text()).toBe(
-      "0/50"
+      "1/50"
     );
   });
 
