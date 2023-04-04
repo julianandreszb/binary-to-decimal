@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
-// @ts-ignore
 import DecimalInput from "../DecimalInput.vue";
 
 describe("DecimalInput", () => {
