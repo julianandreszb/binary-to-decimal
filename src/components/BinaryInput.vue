@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import type { Ref } from "vue";
-import { isBinary, binaryToDecimal } from "@/Utils/Utils";
-import { BinaryResult } from "@/Utils/Interfaces";
+import { binaryToDecimal } from "@/Utils/Utils";
+import { IBinaryResult } from "@/Utils/Interfaces";
 import FormGroup from "@/components/FormGroup.vue";
 import IconTriangleExclamation from "@/components/IconTriangleExclamation.vue";
+import { useBinary } from "@/composables/useBinary";
+import { useDecimal } from "@/composables/useDecimal";
 
-const emit = defineEmits<{
-  (e: "onBinaryEntered", value: BinaryResult): void;
-}>();
-
-interface Props {
-  binaryLabel?: string;
+interface IBinaryInputProps {
+  label?: string;
   placeholder?: string;
-  maxlength?: number;
+  maxLength?: number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  binaryLabel: "Binary Number",
+const props = withDefaults(defineProps<IBinaryInputProps>(), {
+  label: "Binary Number",
   placeholder: "Enter a binary number",
-  maxlength: 40,
-});
-const binaryNumber: Ref<string> = ref("0");
-const decimalNumber: Ref<number> = ref(0);
-const isBinaryValid = computed<boolean>((): boolean => {
-  return isBinary(binaryNumber.value);
-});
-const invalidBinaryNumberMessage = computed<string>(() => {
-  return isBinaryValid.value ? "" : "Invalid binary number";
-});
-const inputBinaryClass = computed<string>(() => {
-  return isBinaryValid.value ? "" : "invalid-input";
-});
-const maxCharacterCounter = computed<string>(() => {
-  return `${binaryNumber.value.toString().length}/${props.maxlength}`;
+  maxLength: 40,
 });
 
-const createBinaryResult = function (binaryNumber: string): BinaryResult {
-  const binaryResult: BinaryResult = {
+const {
+  binaryNumber,
+  isBinaryValid,
+  invalidBinaryNumberMessage,
+  inputBinaryClass,
+  maxCharacterCounter,
+} = useBinary(props.maxLength);
+
+const { decimalNumber } = useDecimal();
+
+const emit = defineEmits<{
+  (e: "onBinaryEntered", value: IBinaryResult): void;
+}>();
+
+const emitConvertBinaryResult = function (binaryResult: IBinaryResult): void {
+  emit("onBinaryEntered", binaryResult);
+};
+
+const handleEnterBinary = function (binaryNumber: string) {
+  const binaryResult: IBinaryResult = {
     isValid: false,
     message: "",
     decimalNumber: 0,
@@ -50,17 +50,7 @@ const createBinaryResult = function (binaryNumber: string): BinaryResult {
   } else {
     binaryResult.message = invalidBinaryNumberMessage.value;
   }
-
-  return binaryResult;
-};
-
-const emitBinaryResult = function (binaryResult: BinaryResult): void {
-  emit("onBinaryEntered", binaryResult);
-};
-
-const handleBinaryNumber = function (binaryNumber: string) {
-  const binaryResult = createBinaryResult(binaryNumber);
-  emitBinaryResult(binaryResult);
+  emitConvertBinaryResult(binaryResult);
 };
 </script>
 
@@ -68,7 +58,7 @@ const handleBinaryNumber = function (binaryNumber: string) {
   <FormGroup>
     <template v-slot:input-label>
       <label data-testid="label-input" for="input-field">{{
-        props.binaryLabel
+        props.label
       }}</label>
     </template>
     <template v-slot:input-group>
@@ -81,8 +71,8 @@ const handleBinaryNumber = function (binaryNumber: string) {
         :class="inputBinaryClass"
         v-model="binaryNumber"
         :placeholder="props.placeholder"
-        :maxlength="props.maxlength"
-        v-on:keyup="handleBinaryNumber(binaryNumber)"
+        :maxlength="props.maxLength"
+        v-on:keyup="handleEnterBinary(binaryNumber)"
       />
     </template>
     <template v-slot:form-input-helper>
@@ -112,13 +102,16 @@ const handleBinaryNumber = function (binaryNumber: string) {
       outline-color: #004ab7;
     }
   }
+
   .input-decimal {
     @extend .input;
     background-color: $read-only;
   }
+
   .invalid-input {
     color: $error-color;
     border-color: $error-color;
+
     &:focus,
     &:active {
       border-color: $error-color;

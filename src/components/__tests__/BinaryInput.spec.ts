@@ -5,7 +5,7 @@ import BinaryInput from "../BinaryInput.vue";
 
 describe("BinaryInput", () => {
   it("should display a label based on the binaryLabel property", function () {
-    const wrapper = mount(BinaryInput, { props: { binaryLabel: "Title" } });
+    const wrapper = mount(BinaryInput, { props: { label: "Title" } });
     expect(wrapper.find('[data-testid="label-input"]').text()).toBe("Title");
   });
 
@@ -18,7 +18,7 @@ describe("BinaryInput", () => {
 
   it("should contain a placeholder", function () {
     const wrapper = mount(BinaryInput, {
-      props: { binaryLabel: "Title", placeholder: "This is a placeholder" },
+      props: { label: "Title", placeholder: "This is a placeholder" },
     });
     expect(
       wrapper.find('[data-testid="input-binary"]').attributes("placeholder")
@@ -33,7 +33,7 @@ describe("BinaryInput", () => {
   });
 
   it("should contain the maxlength property based on maxlength property provided", function () {
-    const wrapper = mount(BinaryInput, { props: { maxlength: 50 } });
+    const wrapper = mount(BinaryInput, { props: { maxLength: 50 } });
     expect(
       wrapper.find('[data-testid="input-binary"]').attributes("maxlength")
     ).toBe("50");
@@ -47,14 +47,14 @@ describe("BinaryInput", () => {
   });
 
   it("should display a character number counter based on maxlength property", function () {
-    const wrapper = mount(BinaryInput, { props: { maxlength: 50 } });
+    const wrapper = mount(BinaryInput, { props: { maxLength: 50 } });
     expect(wrapper.find('[data-testid="character-counter"]').text()).toBe(
       "1/50"
     );
   });
 
   it("should display the character number counter based on the characters entered in the binary input", async function () {
-    const wrapper = mount(BinaryInput, { props: { maxlength: 50 } });
+    const wrapper = mount(BinaryInput, { props: { maxLength: 50 } });
     const inputBinary = wrapper.find('[data-testid="input-binary"]');
     const binaryNumber = "1010";
     await inputBinary.setValue(binaryNumber);

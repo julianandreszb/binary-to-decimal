@@ -1,23 +1,11 @@
 <script setup lang="ts">
-import BinaryInput from "@/components/BinaryInput.vue";
-import { BinaryResult } from "@/Utils/Interfaces";
-import DecimalInput from "@/components/DecimalInput.vue";
-import { ref } from "vue";
-const decimalNumber = ref<number>(0);
-
-function updateDecimalNumber(result: BinaryResult): void {
-  decimalNumber.value = result.decimalNumber;
-}
+import BinaryToDecimal from "@/views/BinaryToDecimal.vue";
 </script>
 
 <template>
   <main>
     <h1>Binary To Decimal</h1>
-    <BinaryInput
-      :maxlength="40"
-      @on-binary-entered="updateDecimalNumber"
-    ></BinaryInput>
-    <DecimalInput :decimal-number="decimalNumber"></DecimalInput>
+    <BinaryToDecimal></BinaryToDecimal>
   </main>
 </template>
 
