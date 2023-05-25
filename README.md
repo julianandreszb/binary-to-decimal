@@ -1,11 +1,11 @@
 # binary-to-decimal
-
-This template should help get you started developing with Vue 3 in Vite.
+"Binary to decimal" allows the user to enter strings of up to 40 binary digits, 0's and 1's, in any sequence and then displays its decimal equivalent.
 
 ## DEMO
 https://julianandreszb.github.io/binary-to-decimal/
 
 ## Recommended IDE Setup
+This template should help get you started developing with Vue 3 in Vite.
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
